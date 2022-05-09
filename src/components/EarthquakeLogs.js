@@ -19,7 +19,7 @@ const EarthquakeLogs = () => {
   //     },
   //   ]);
   const [logs, setLogs] = useState([]);
-  const [gradient,setgradient] = useState('bg-red-100');
+  //const [gradient,setgradient] = useState('bg-red-100');
   const processLogs = (jsonFeature) => {
     
     const tempLogs = [];
@@ -88,19 +88,19 @@ const EarthquakeLogs = () => {
   }
 
   return (
-    <div className="m-2">
+    <div className="w-full">
       {logs.map((data, i) => {
         //setgradient(getBgColor(data.magnitude));
         return (
           <div className={"flex flex-row border my-2 " + getBgColor(data.magnitude)} key={i}>
             <div className=" my-auto mx-4">
-              <span className="rounded-full  text-center text-xl p-2 font-bold">
+              <span className="rounded-full  text-center lg:text-xl md:text-base sm:text-sm text-xs p-2 font-bold">
                 {data.magnitude}
               </span>
             </div>
             <div className="p-2">
-              <h1 className="font-bold text-xl">{data.location}</h1>
-              <h3 className="text-gray-800 text-sm">{data.time}</h3>
+              <h1 className="font-bold  lg:text-xl md:text-base sm:text-sm text-xs">{data.location}</h1>
+              <h3 className="text-gray-800 sm:text-sm lg:text-base md:text-sm text-xs">{data.time}</h3>
             </div>
           </div>
         );
