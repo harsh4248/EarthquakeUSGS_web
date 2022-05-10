@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import ReactLoading from "react-loading";
 import PreviewLogs from "./previewLogs";
-const EarthquakeLogs = () => {
+const EarthquakeLogs = (props) => {
   //const [rawData, setrawData] = useState();
   //   const [logs, setLogs] = useState([
   //     {
@@ -22,9 +22,10 @@ const EarthquakeLogs = () => {
   //   ]);
   const [isLoading, setisLoading] = useState(true);
   const [logs, setLogs] = useState([]);
-
+  const rawdataSetter = props.dataSetter;
   //const [gradient,setgradient] = useState('bg-red-100');
   const processLogs = (jsonFeature) => {
+    rawdataSetter(jsonFeature);
     const tempLogs = [];
     jsonFeature.forEach((element) => {
       const properties = element.properties;
@@ -38,7 +39,8 @@ const EarthquakeLogs = () => {
     setisLoading(false);
   };
   useEffect(() => {
-    
+    rawdataSetter('');
+    props.setMarker(0);
     setTimeout(() => {
       setisLoading(true);
       fetch(
@@ -100,7 +102,7 @@ const EarthquakeLogs = () => {
           />
         </div>
       ) : (
-        <PreviewLogs log={logs} bgColor={getBgColor} />
+        <PreviewLogs log={logs} bgColor={getBgColor} markerSetter={props.setMarker}/>
       )}
     </div>
   );

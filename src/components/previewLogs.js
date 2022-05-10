@@ -1,12 +1,14 @@
 const PreviewLogs = (props) => {
   const logs = props.log;
     const getBgColor = props.bgColor;
+    const markerSetterMethod = props.markerSetter;
   return (
     <div>
+      
       {logs.map((data, i) => {
         //setgradient(getBgColor(data.magnitude));
         return (
-          <div
+          <div onClick={() => {markerSetterMethod(i)}}
             className={
               "flex flex-row border my-2 " + getBgColor(data.magnitude)
             }

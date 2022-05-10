@@ -9,6 +9,8 @@ const App = () => {
   const [showLog, setshowLog] = useState(false);
   const [showMap, setshowMap] = useState(false);
   const [showSetting, setshowSetting] = useState(false);
+  const [mapMarker,setmapMarker] = useState(0);
+  const [rawData,setrawData] = useState('');
 
   const toggleLog = () => {
     if (showLog === true) {
@@ -47,13 +49,13 @@ const App = () => {
         )}
         {showLog && (
           <div className="m-2 w-full logDiv">
-            <EarthquakeLogs />
+            <EarthquakeLogs dataSetter={setrawData} setMarker={setmapMarker}/>
           </div>
         )}
 
         {showMap && (
-          <div className="m-2 p-2 w-full mapDiv bg-yellow-500">
-            <Map />
+          <div className="m-2 w-full mapDiv ">
+            <Map markerIndex={mapMarker} data={rawData}/>
           </div>
         )}
         {showSetting && (
