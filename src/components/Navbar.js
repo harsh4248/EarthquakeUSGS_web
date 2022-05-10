@@ -1,6 +1,13 @@
 const Navbar = (prop) => {
   const navbarProps = prop.status;
-  console.log(navbarProps.logStatus);
+  console.log(
+    "" +
+      navbarProps.logStatus +
+      " " +
+      navbarProps.mapStatus +
+      " " +
+      navbarProps.settingStatus
+  );
   return (
     <nav className="bg-slate-600 p-2 flex flex-row place-content-between fixed w-full top-0">
       <div className="flex flex-row ">
@@ -24,9 +31,10 @@ const Navbar = (prop) => {
           <svg
             viewBox="0 0 60 55"
             className={
-              "hover:fill-teal-500 " + navbarProps.logStatus
-                ? "fill-teal-500"
-                : "fill-white"
+              "" +
+              (navbarProps.logStatus
+                ? "fill-teal-500 "
+                : "fill-white hover:fill-teal-500")
             }
             xmlns="http://www.w3.org/2000/svg"
             height="38"
@@ -47,7 +55,10 @@ const Navbar = (prop) => {
           <svg
             viewBox="0 0 60 55"
             className={
-              "hover:fill-teal-500 " + navbarProps.mapStatus ? 'fill-teal-500' : 'fill-white'
+              "" +
+              (navbarProps.mapStatus
+                ? "fill-teal-500 "
+                : "fill-white hover:fill-teal-500")
             }
             xmlns="http://www.w3.org/2000/svg"
             height="38"
@@ -70,9 +81,10 @@ const Navbar = (prop) => {
           <svg
             viewBox="0 0 60 55"
             className={
-              "hover:fill-teal-500 " + navbarProps.settingStatus
-                ? "fill-teal-500"
-                : "fill-white"
+              "" +
+              (navbarProps.settingStatus
+                ? "fill-teal-500 "
+                : "fill-white hover:fill-teal-500")
             }
             xmlns="http://www.w3.org/2000/svg"
             height="38"

@@ -11,39 +11,40 @@ const App = () => {
   const [showSetting, setshowSetting] = useState(false);
 
   const toggleLog = () => {
-    if(showLog === true) {
+    if (showLog === true) {
       setshowLog(false);
-    }
-    else {
+    } else {
       setshowLog(true);
     }
-  }
+  };
   const toggleMap = () => {
-    if(showMap === true) {
+    if (showMap === true) {
       setshowMap(false);
-    }
-    else {
+    } else {
       setshowMap(true);
     }
-
-  }
+  };
   const toggleSetting = () => {
     showSetting ? setshowSetting(false) : setshowSetting(true);
-  }
+  };
   const navbarProp = {
-    logStatus:showLog,
-    logtoggle:toggleLog,
-    mapSatus:showMap,
-    maptoggle:toggleMap,
-    settingStatus:showSetting,
-    settingtoggle:toggleSetting
+    logStatus: showLog,
+    logtoggle: toggleLog,
+    mapStatus: showMap,
+    maptoggle: toggleMap,
+    settingStatus: showSetting,
+    settingtoggle: toggleSetting,
   };
 
   return (
     <div>
-      <Navbar status={navbarProp}/>
-      <div className="flex flex-row mt-14">
-        {(!showLog && !showMap && !showSetting) && <div className="lg:text-3xl text-center m-auto md:text-lg sm:text-base text-sm">Click log button to see the Earthquake list</div>}
+      <Navbar status={navbarProp} />
+      <div className="flex flex-row mt-14" style={{"height":'90vh'}}>
+        {!showLog && !showMap && !showSetting && (
+          <div className="lg:text-3xl text-center m-auto md:text-lg sm:text-base text-sm">
+            Click log button to see the Earthquake list
+          </div>
+        )}
         {showLog && (
           <div className="m-2 w-full logDiv">
             <EarthquakeLogs />

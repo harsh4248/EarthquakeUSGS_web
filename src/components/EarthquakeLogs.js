@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import ReactLoading from "react-loading";
+import PreviewLogs from "./previewLogs";
 const EarthquakeLogs = () => {
   //const [rawData, setrawData] = useState();
   //   const [logs, setLogs] = useState([
@@ -18,10 +20,11 @@ const EarthquakeLogs = () => {
   //       time: "1388592209000",
   //     },
   //   ]);
+  const [isLoading, setisLoading] = useState(true);
   const [logs, setLogs] = useState([]);
+
   //const [gradient,setgradient] = useState('bg-red-100');
   const processLogs = (jsonFeature) => {
-    
     const tempLogs = [];
     jsonFeature.forEach((element) => {
       const properties = element.properties;
@@ -32,79 +35,73 @@ const EarthquakeLogs = () => {
       });
     });
     setLogs(tempLogs);
+    setisLoading(false);
   };
   useEffect(() => {
-    fetch(
-      "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2014-01-01&endtime=2014-01-02"
-    )
-      .then((response) => {
-        if (response.ok) {
-          //console.log(response);
-          return response.json();
-        } else {
-          throw response;
-        }
-      })
-      .then((jsonData) => {
-        // console.log(jsonData);
-        // setrawData(jsonData.features);
-        // console.log(jsonData.features);
-        // processLogs();
-        return jsonData.features;
-      })
-      .then((jsonFeature) => {
-        processLogs(jsonFeature);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-  const getBgColor = (magnitude) => {
+    
+    setTimeout(() => {
+      setisLoading(true);
+      fetch(
+        "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2014-01-01&endtime=2014-01-02"
+      )
+        .then((response) => {
+          if (response.ok) {
+            //console.log(response);
+            return response.json();
+          } else {
+            throw response;
+          }
+        })
+        .then((jsonData) => {
+          // console.log(jsonData);
+          // setrawData(jsonData.features);
+          // console.log(jsonData.features);
+          // processLogs();
+          return jsonData.features;
+        })
+        .then((jsonFeature) => {
+          processLogs(jsonFeature);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },[]);
+  }, 2000);
 
-      if(magnitude < 1) {
-        return 'bg-red-100';
-      }
-      else if(magnitude >= 1 && magnitude < 2 ) {
-          return 'bg-red-200';
-      }
-      else if(magnitude >= 2 && magnitude < 3) {
-          return 'bg-red-300';
-      }
-      else if(magnitude >= 3 && magnitude < 4) {
-          return 'bg-red-400';
-      }
-      else if(magnitude >= 4 && magnitude < 5) {
-          return 'bg-red-500';
-      }
-      else if(magnitude >= 5 && magnitude < 6) {
-          return 'bg-red-600';
-      }
-      else if(magnitude >= 6 && magnitude < 7) {
-          return 'bg-red-700';
-      }
-      else  {
-          return 'bg-red-800';
-      }
-  }
+  const getBgColor = (magnitude) => {
+    if (magnitude < 1) {
+      return "bg-red-100";
+    } else if (magnitude >= 1 && magnitude < 2) {
+      return "bg-red-200";
+    } else if (magnitude >= 2 && magnitude < 3) {
+      return "bg-red-300";
+    } else if (magnitude >= 3 && magnitude < 4) {
+      return "bg-red-400";
+    } else if (magnitude >= 4 && magnitude < 5) {
+      return "bg-red-500";
+    } else if (magnitude >= 5 && magnitude < 6) {
+      return "bg-red-600";
+    } else if (magnitude >= 6 && magnitude < 7) {
+      return "bg-red-700";
+    } else {
+      return "bg-red-800";
+    }
+  };
 
   return (
-    <div className="w-full">
-      {logs.map((data, i) => {
-        //setgradient(getBgColor(data.magnitude));
-        return (
-          <div className={"flex flex-row border my-2 " + getBgColor(data.magnitude)} key={i}>
-            <div className=" my-auto mx-4">
-              <span className="rounded-full  text-center lg:text-xl md:text-base sm:text-sm text-xs p-2 font-bold">
-                {data.magnitude}
-              </span>
-            </div>
-            <div className="p-2">
-              <h1 className="font-bold  lg:text-xl md:text-base sm:text-sm text-xs">{data.location}</h1>
-              <h3 className="text-gray-800 sm:text-sm lg:text-base md:text-sm text-xs">{data.time}</h3>
-            </div>
-          </div>
-        );
-      })}
+    <div className="w-full overflow-scroll h-full">
+      {isLoading === true ? (
+        <div className="m-auto text-center place-content-center">
+          <ReactLoading
+            type="spinningBubbles"
+            color="#0000FF"
+            height={100 * 2}
+            width={50 * 2}
+          />
+        </div>
+      ) : (
+        <PreviewLogs log={logs} bgColor={getBgColor} />
+      )}
     </div>
   );
 };
