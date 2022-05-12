@@ -11,6 +11,7 @@ const App = () => {
   const [showSetting, setshowSetting] = useState(false);
   const [mapMarker,setmapMarker] = useState(0);
   const [rawData,setrawData] = useState('');
+  const [link,setlink] = useState('https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson');
 
   const toggleLog = () => {
     if (showLog === true) {
@@ -49,7 +50,7 @@ const App = () => {
         )}
         {showLog && (
           <div className="m-2 w-full logDiv">
-            <EarthquakeLogs dataSetter={setrawData} setMarker={setmapMarker}/>
+            <EarthquakeLogs dataSetter={setrawData} setMarker={setmapMarker} apiLink={link}/>
           </div>
         )}
 
@@ -59,8 +60,8 @@ const App = () => {
           </div>
         )}
         {showSetting && (
-          <div className="m-2 p-2 w-full settingDiv bg-black">
-            <Setting />
+          <div className="w-full settingDiv h-full flex">
+            <Setting apiLink={link} apiLinkSetter={setlink}/>
           </div>
         )}
       </div>

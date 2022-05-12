@@ -29,7 +29,7 @@ const Map = (props) => {
       }, []);
       if(Object.keys(rawData).length !== 0 && typeof(mapObj) !== "undefined") {
         const cordArr = rawData[markerIndex].geometry.coordinates;
-        console.log(cordArr);
+        //console.log(cordArr);
         const marker = new mapboxgl.Marker().setLngLat([cordArr[0], cordArr[1]]).addTo(mapObj);
         mapObj.setCenter([cordArr[0],cordArr[1]]);
     }

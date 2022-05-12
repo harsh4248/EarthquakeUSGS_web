@@ -23,29 +23,42 @@ const EarthquakeLogs = (props) => {
   const [isLoading, setisLoading] = useState(true);
   const [logs, setLogs] = useState([]);
   const rawdataSetter = props.dataSetter;
+  const link = props.apiLink;
   //const [gradient,setgradient] = useState('bg-red-100');
   const processLogs = (jsonFeature) => {
     rawdataSetter(jsonFeature);
     const tempLogs = [];
     jsonFeature.forEach((element) => {
       const properties = element.properties;
+      const timeStamp = properties.time;
+      const date = new Date(timeStamp);
+      const processedTime =
+        date.getDate() +
+        "/" +
+        (date.getMonth() + 1) +
+        "/" +
+        date.getFullYear() +
+        " " +
+        date.getHours() +
+        ":" +
+        date.getMinutes() +
+        ":" +
+        date.getSeconds();
       tempLogs.push({
         magnitude: parseFloat(properties.mag).toFixed(1),
         location: properties.place,
-        time: properties.time,
+        time: processedTime,
       });
     });
     setLogs(tempLogs);
     setisLoading(false);
   };
   useEffect(() => {
-    rawdataSetter('');
+    rawdataSetter("");
     props.setMarker(0);
     setTimeout(() => {
       setisLoading(true);
-      fetch(
-        "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2014-01-01&endtime=2014-01-02"
-      )
+      fetch(link)
         .then((response) => {
           if (response.ok) {
             //console.log(response);
@@ -67,7 +80,7 @@ const EarthquakeLogs = (props) => {
         .catch((error) => {
           console.log(error);
         });
-    },[]);
+    }, []);
   }, 2000);
 
   const getBgColor = (magnitude) => {
@@ -102,7 +115,11 @@ const EarthquakeLogs = (props) => {
           />
         </div>
       ) : (
-        <PreviewLogs log={logs} bgColor={getBgColor} markerSetter={props.setMarker}/>
+        <PreviewLogs
+          log={logs}
+          bgColor={getBgColor}
+          markerSetter={props.setMarker}
+        />
       )}
     </div>
   );
