@@ -6,12 +6,33 @@ import Setting from "./components/setting";
 // import { BrowserRouter as Router, Routes,Route } from "react-router-dom";
 
 const App = () => {
+  const baseLink =
+    "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson";
   const [showLog, setshowLog] = useState(false);
   const [showMap, setshowMap] = useState(false);
   const [showSetting, setshowSetting] = useState(false);
-  const [mapMarker,setmapMarker] = useState(0);
-  const [rawData,setrawData] = useState('');
-  const [link,setlink] = useState('https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson');
+  const [mapMarker, setmapMarker] = useState(0);
+  const [rawData, setrawData] = useState("");
+  const [link, setlink] = useState(baseLink);
+
+  //filter states
+  const [fromDate, setFromDate] = useState("2022-22-2");
+  const [toDate, setToDate] = useState();
+  const [minMagnitude, setMinMagnitude] = useState();
+  const [maxMagnitude, setMaxMagnitude] = useState();
+
+  const settingProp = {
+    from: fromDate,
+    fromSetter: setFromDate,
+    to: toDate,
+    toSetter: setToDate,
+    minMag: minMagnitude,
+    minMagSetter: setMinMagnitude,
+    maxMag: maxMagnitude,
+    maxMagSetter: setMaxMagnitude,
+    raw:rawData,
+    rawSetter:setrawData
+  };
 
   const toggleLog = () => {
     if (showLog === true) {
@@ -42,7 +63,7 @@ const App = () => {
   return (
     <div>
       <Navbar status={navbarProp} />
-      <div className="flex flex-row mt-14" style={{"height":'90vh'}}>
+      <div className="flex flex-row mt-14" style={{ height: "90vh" }}>
         {!showLog && !showMap && !showSetting && (
           <div className="lg:text-3xl text-center m-auto md:text-lg sm:text-base text-sm">
             Click log button to see the Earthquake list
@@ -50,18 +71,28 @@ const App = () => {
         )}
         {showLog && (
           <div className="m-2 w-full logDiv">
-            <EarthquakeLogs dataSetter={setrawData} setMarker={setmapMarker} apiLink={link}/>
+            <EarthquakeLogs
+              dataSetter={setrawData}
+              setMarker={setmapMarker}
+              apiLink={link}
+            />
           </div>
         )}
 
         {showMap && (
           <div className="m-2 w-full mapDiv ">
-            <Map markerIndex={mapMarker} data={rawData}/>
+            <Map markerIndex={mapMarker} data={rawData} />
           </div>
         )}
         {showSetting && (
           <div className="w-full settingDiv h-full flex">
-            <Setting apiLink={link} apiLinkSetter={setlink}/>
+            <Setting
+              apiLink={link}
+              apiLinkSetter={setlink}
+              baseApi={baseLink}
+              stateFilter={settingProp}
+              logSetter={setshowLog}
+            />
           </div>
         )}
       </div>

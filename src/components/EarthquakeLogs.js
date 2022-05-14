@@ -81,7 +81,7 @@ const EarthquakeLogs = (props) => {
           console.log(error);
         });
     }, []);
-  }, 2000);
+  }, 1000);
 
   const getBgColor = (magnitude) => {
     if (magnitude < 1) {
